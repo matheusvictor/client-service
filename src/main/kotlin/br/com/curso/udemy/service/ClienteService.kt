@@ -3,6 +3,8 @@ package br.com.curso.udemy.service
 import br.com.curso.udemy.exception.RegistroNaoEncontradoException
 import br.com.curso.udemy.model.Cliente
 import br.com.curso.udemy.repository.ClienteRepository
+import io.micronaut.data.model.Page
+import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton
 import javax.transaction.Transactional
 
@@ -15,8 +17,8 @@ open class ClienteService(
         return repository.save(cliente)
     }
 
-    fun listarTodos(): List<Cliente> {
-        return repository.findAll()
+    fun listarTodos(pageable: Pageable): Page<Cliente> {
+        return repository.findAll(pageable)
     }
 
     fun listarPorId(id: Long): Cliente {

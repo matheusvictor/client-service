@@ -2,6 +2,8 @@ package br.com.curso.udemy.controller
 
 import br.com.curso.udemy.model.Cliente
 import br.com.curso.udemy.service.ClienteService
+import io.micronaut.data.model.Page
+import io.micronaut.data.model.Pageable
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.*
 
@@ -17,7 +19,9 @@ class ClienteController(
     }
 
     @Get
-    fun listarTodos(): List<Cliente> = service.listarTodos()
+    fun listarTodos(pageable: Pageable): Page<Cliente> {
+        return service.listarTodos(pageable)
+    }
 
     @Get("/{id}")
     fun listarPorId(@PathVariable id: Long): Cliente = service.listarPorId(id)
