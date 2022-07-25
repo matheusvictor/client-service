@@ -46,8 +46,8 @@ open class ClienteService(
         repository.save(clienteDB)
     }
 
-    fun listar(): List<Cliente> {
-        return repository.listarComImplementacao()
+    fun listar(nome: String?): List<Cliente> {
+        return repository.listarComImplementacao(nome)
     }
 
 }

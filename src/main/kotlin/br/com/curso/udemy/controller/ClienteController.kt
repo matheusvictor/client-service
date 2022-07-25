@@ -19,8 +19,8 @@ class ClienteController(
     }
 
     @Get("/pesquisar")
-    fun listar(): List<Cliente> {
-        return service.listar()
+    fun listar(@QueryValue nome: String?): List<Cliente> {
+        return service.listar(nome)
     }
 
     @Get
