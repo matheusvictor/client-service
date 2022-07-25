@@ -10,7 +10,7 @@ import javax.transaction.Transactional
 
 @Singleton
 open class ClienteService(
-    private val repository: ClienteRepository
+        private val repository: ClienteRepository
 ) {
 
     fun cadastrar(cliente: Cliente): Cliente {
@@ -44,6 +44,10 @@ open class ClienteService(
         clienteDB.documento = cliente.documento
         clienteDB.endereco = cliente.endereco
         repository.save(clienteDB)
+    }
+
+    fun listar(): List<Cliente> {
+        return repository.listarComImplementacao()
     }
 
 }

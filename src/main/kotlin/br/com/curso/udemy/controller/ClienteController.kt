@@ -9,13 +9,18 @@ import io.micronaut.http.annotation.*
 
 @Controller("/clientes")
 class ClienteController(
-    private val service: ClienteService
+        private val service: ClienteService
 ) {
 
     @Post
     fun cadastrar(@Body cliente: Cliente): HttpResponse<Cliente> {
         val clienteDB: Cliente = service.cadastrar(cliente)
         return HttpResponse.created(clienteDB)
+    }
+
+    @Get("/pesquisar")
+    fun listar(): List<Cliente> {
+        return service.listar()
     }
 
     @Get

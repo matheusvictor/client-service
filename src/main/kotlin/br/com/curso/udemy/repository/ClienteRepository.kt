@@ -1,13 +1,27 @@
 package br.com.curso.udemy.repository
 
 import br.com.curso.udemy.model.Cliente
+import io.micronaut.data.annotation.Query
 import io.micronaut.data.annotation.Repository
 import io.micronaut.data.jpa.repository.JpaRepository
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
+import javax.persistence.EntityManager
+import javax.transaction.Transactional
 
 @Repository
-interface ClienteRepository : JpaRepository<Cliente, Long> {
-    fun findByNome(nome: String, pageable: Pageable) : Page<Cliente>
+abstract class ClienteRepository(private val entityManager: EntityManager) : JpaRepository<Cliente, Long> {
+    abstract fun findByNome(nome: String, pageable: Pageable): Page<Cliente>
+
+    @Query("select c from Cliente c")
+    abstract fun listar(): List<Cliente>
+
+    @Transactional
+    fun listarComImplementacao(): List<Cliente> {
+        val queryDefinicao: String = "select c from Cliente c"
+        val query = entityManager.createQuery(queryDefinicao)
+        val clientes = query.resultList
+        return clientes as List<Cliente>
+    }
 
 }
