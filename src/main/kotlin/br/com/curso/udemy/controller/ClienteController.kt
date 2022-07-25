@@ -19,8 +19,8 @@ class ClienteController(
     }
 
     @Get
-    fun listarTodos(pageable: Pageable): Page<Cliente> {
-        return service.listarTodos(pageable)
+    fun listarTodos(@QueryValue nome: String?, pageable: Pageable): Page<Cliente> {
+        return service.listarTodos(nome, pageable)
     }
 
     @Get("/{id}")

@@ -17,8 +17,13 @@ open class ClienteService(
         return repository.save(cliente)
     }
 
-    fun listarTodos(pageable: Pageable): Page<Cliente> {
-        return repository.findAll(pageable)
+    fun listarTodos(nome: String?, pageable: Pageable): Page<Cliente> {
+        val clientes = if (nome == null) {
+            repository.findAll(pageable)
+        } else {
+            repository.findByNome(nome, pageable)
+        }
+        return clientes
     }
 
     fun listarPorId(id: Long): Cliente {
