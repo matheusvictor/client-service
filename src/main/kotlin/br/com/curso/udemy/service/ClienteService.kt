@@ -41,7 +41,7 @@ open class ClienteService(
     open fun atualizar(id: Long, cliente: Cliente) {
         val clienteDB: Cliente = listarPorId(id)
         clienteDB.nome = cliente.nome
-        clienteDB.documento = cliente.documento
+        clienteDB.email = cliente.email
         clienteDB.endereco = cliente.endereco
         repository.save(clienteDB)
     }
