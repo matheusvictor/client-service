@@ -2,15 +2,17 @@ micronaut:
   application:
     name: clientService
 
+# conexão com banco de dados MySQL local
 datasources:
   default:
     url: jdbc:mysql://localhost:3306/clientes-db
     driverClassName: "com.mysql.cj.jdbc.Driver"
     username: root
-    password: 12345678
-    schema-generate: CREATE_DROP
+    password: root
+    # schema-generate: CREATE_DROP
     dialect: MYSQL
 
+# definição de estratégia para criação de tabelas com JPA
 jpa:
   default:
     packages-to-scan:
