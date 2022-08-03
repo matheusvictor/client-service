@@ -12,7 +12,7 @@ class ClienteExceptionHandler : ExceptionHandler<RegistroNaoEncontradoException,
 
     override fun handle(request: HttpRequest<*>?, exception: RegistroNaoEncontradoException?): HttpResponse<*> {
         val msg = ErrorMessage(
-            mensagem = exception?.message.toString()
+            mensagem = exception?.mensagem.toString()
         )
         return HttpResponse.notFound<ErrorMessage>().body(msg)
     }
