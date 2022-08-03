@@ -6,11 +6,12 @@ import br.com.curso.udemy.repository.ClienteRepository
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton
+import java.time.LocalDateTime
 import javax.transaction.Transactional
 
 @Singleton
 open class ClienteService(
-        private val repository: ClienteRepository
+    private val repository: ClienteRepository
 ) {
 
     fun cadastrar(cliente: Cliente): Cliente {
@@ -18,7 +19,7 @@ open class ClienteService(
     }
 
     fun listarTodos(nome: String?, pageable: Pageable): Page<Cliente> {
-        val clientes = if (nome == null) {
+        val clientes = if (nome.isNullOrBlank()) {
             repository.findAll(pageable)
         } else {
             repository.findByNome(nome, pageable)
@@ -28,22 +29,26 @@ open class ClienteService(
 
     fun listarPorId(id: Long): Cliente {
         return repository.findById(id).orElseThrow {
-            RegistroNaoEncontradoException("Registro não encontrado!")
+            RegistroNaoEncontradoException()
         }
     }
 
-    fun deletar(id: Long): Unit {
+    fun deletar(id: Long) {
         val clienteDB: Cliente = listarPorId(id)
         repository.delete(clienteDB)
     }
 
     @Transactional
-    open fun atualizar(id: Long, cliente: Cliente) {
-        val clienteDB: Cliente = listarPorId(id)
-        clienteDB.nome = cliente.nome
-        clienteDB.email = cliente.email
-        clienteDB.endereco = cliente.endereco
-        repository.save(clienteDB)
+    open fun atualizar(id: Long, email: String, endereco: String) {
+        val clienteDB: Cliente = listarPorId(id) // identificando qual é o cliente que possui o ID passado na URI
+
+        clienteDB.email = email
+        clienteDB.endereco = endereco
+        clienteDB.dataModificacao = LocalDateTime.now()
+        // repository.save(clienteDB)
+        repository.update(clienteDB)
+
+
     }
 
     fun listar(nome: String?): List<Cliente> {

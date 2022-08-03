@@ -19,11 +19,7 @@ class ClienteController(
 
     @Post
     fun cadastrar(@Body @Valid clienteRequest: ClienteRequest): HttpResponse<Cliente> {
-
-        // println(clienteRequest) // imprimi os dados recebidos na requisição
-
         val cliente: Cliente = clienteRequest.fromCliente() // converte a requisição (DTO) para obj. de domínio
-        // println(cliente.nome) // imprimi o nome do objeto covertido
 
         val clienteDB: Cliente = service.cadastrar(cliente)
         return HttpResponse.created(clienteDB)
@@ -49,8 +45,16 @@ class ClienteController(
     }
 
     @Put("/{id}")
-    fun atualizar(@PathVariable id: Long, @Body cliente: Cliente) {
-        service.atualizar(id, cliente)
+    fun atualizar(@PathVariable id: Long, email: String?, endereco: String?): HttpResponse<Cliente> {
+
+        return if (!email.isNullOrBlank() && !endereco.isNullOrBlank()) {
+            service.atualizar(id, email, endereco)
+            val clienteModificado: Cliente = service.listarPorId(id)
+            HttpResponse.ok(clienteModificado)
+        } else {
+            println("deu ruim")
+            HttpResponse.notModified()
+        }
     }
 
 }

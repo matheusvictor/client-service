@@ -19,9 +19,9 @@ abstract class ClienteRepository(private val entityManager: EntityManager) : Jpa
     @Transactional
     fun listarComImplementacao(nome: String?): List<Cliente> {
 
-        var queryDefinicao: String = "select c from Cliente c"
+        var queryDefinicao = "SELECT c FROM Cliente cliente"
         if (!nome.isNullOrEmpty()) {
-            queryDefinicao += " where nome = :nome"
+            queryDefinicao += " WHERE cliente.nome = :nome ORDER BY cliente.nome"
         }
 
         val query = entityManager.createQuery(queryDefinicao)
